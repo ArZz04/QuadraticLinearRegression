@@ -3,8 +3,8 @@ public class DataSet {
     private double y[];
 
     public DataSet() {
-        y = new double[] {7.5, 3, 0.5, 1, 3, 6, 14};
-        x = new double[] {-3, -2, -1, 0, 1, 2, 3};
+        y = new double[] {7.5,  3,  0.5, 1, 3, 6, 14};
+        x = new double[] {-3,  -2, -1,  0, 1, 2, 3};
     }
 
     public double[] getX() {

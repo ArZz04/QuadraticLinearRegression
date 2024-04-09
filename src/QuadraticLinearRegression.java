@@ -1,6 +1,9 @@
+import java.util.Arrays;
+
 public class QuadraticLinearRegression {
 
     private double a, b, c;
+    private double rSquared;
 
     public void fit(double[] x, double[] y) {
         int n = x.length;
@@ -13,14 +16,14 @@ public class QuadraticLinearRegression {
         double sumXCube = dm.sumXCube(x);
         double sumXSquareY = dm.sumXSquareY(x, y);
 
-        // ecuaciones para encontrar coeficientes cuadráticos (a, b, c)
+        // Ecuaciones para encontrar coeficientes cuadráticos (a, b, c)
         double[][] equations = {
-                {n, sumX, sumXSquare},
-                {sumX, sumXSquare, sumXCube},
-                {sumXSquare, sumXCube, sumXSquare * sumXSquare}
+                {n, sumX, sumXSquare},                          // | n   Σx  Σx2 | c |   | Σy   |
+                {sumX, sumXSquare, sumXCube},                   // | Σx  Σx2 Σx3 | b | = | Σxy  |
+                {sumXSquare, sumXCube, sumXSquare * sumXSquare} // | Σx2 Σx3 Σx4 | a |   | Σx2y |
         };
 
-        double[] results = {sumY, sumXY, sumXSquareY};
+        double[] results = {sumXY, sumXSquareY, sumY};
 
         Cleaner solver = new Cleaner();
         double[] coefficients = solver.solve(equations, results);
@@ -29,10 +32,11 @@ public class QuadraticLinearRegression {
         a = coefficients[0];
         b = coefficients[1];
         c = coefficients[2];
+
     }
 
     public double predict(int x) {
-        return a * x * x + b * x + c;
+        return (a * (x * x)) + (b * x) + c;
     }
 
     public double getA() {
@@ -46,7 +50,6 @@ public class QuadraticLinearRegression {
     public double getC() {
         return c;
     }
-
     public static void calculateQuadraticRegression(int newXQuadratic) {
         DataSet ds = new DataSet();
         double[] xData = ds.getX();
@@ -61,11 +64,11 @@ public class QuadraticLinearRegression {
         double bQuadratic = quadraticRegression.getB();
         double cQuadratic = quadraticRegression.getC();
 
-        // Imprimir la ecuación de regresión cuadrática
-        System.out.println("Ecuación de regresión cuadrática: Y = " + aQuadratic + " * X^2 + " + bQuadratic + " * X + " + cQuadratic);
-
         // Predecir el valor de Y para un nuevo valor de X usando regresión cuadrática
         double predictedYQuadratic = quadraticRegression.predict(newXQuadratic);
+
+        // Imprimir la ecuación de regresión cuadrática
+        System.out.println("Ecuación de regresión cuadrática: Y = (" + aQuadratic + " * " + newXQuadratic + "^2) + (" + bQuadratic + " * X) + " + cQuadratic);
         System.out.println("Predicción cuadrática para X = " + newXQuadratic + ": Y = " + predictedYQuadratic);
     }
 }
