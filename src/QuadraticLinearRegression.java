@@ -1,9 +1,7 @@
-import java.util.Arrays;
 
 public class QuadraticLinearRegression {
 
     private double a, b, c;
-    private double rSquared;
 
     public void fit(double[] x, double[] y) {
         int n = x.length;
