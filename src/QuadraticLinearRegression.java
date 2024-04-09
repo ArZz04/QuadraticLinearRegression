@@ -23,6 +23,7 @@ public class QuadraticLinearRegression {
 
         double[] results = {sumXY, sumXSquareY, sumY};
 
+        /* No me quise arriescar a equivocarme aqui JAJAJA
         Cleaner solver = new Cleaner();
         double[] coefficients = solver.solve(equations, results);
 
@@ -30,6 +31,21 @@ public class QuadraticLinearRegression {
         a = coefficients[0];
         b = coefficients[1];
         c = coefficients[2];
+        */
+
+
+        // Reemplaza con los cálculos directos
+        double deno = n * sumXSquare - sumX * sumX;
+
+        if (deno == 0) {
+            System.out.println("Error: el denominador es cero.");
+            return;
+        }
+
+        a = (sumXSquareY * sumX - sumXY * sumXSquare) / deno;
+        b = (n * sumXY - sumX * sumY) / deno;
+        c = (sumY * sumXSquare - sumX * sumXSquareY) / deno;
+
 
     }
 
