@@ -64,4 +64,5 @@ public class DiscreteMaths {
 
         return totalXQuartic;
     }
+
 }
