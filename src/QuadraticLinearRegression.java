@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class QuadraticLinearRegression {
 
@@ -11,19 +12,29 @@ public class QuadraticLinearRegression {
         double sumY = dm.sumY(y);
         double sumXY = dm.sumXY(x, y);
         double sumXSquare = dm.sumXSquare(x);
-        double sumXCube = dm.sumXCube(x);
         double sumXSquareY = dm.sumXSquareY(x, y);
+        double sumXCube = dm.sumXCubic(x);
+        double sumXQuartic = dm.sumXQuartic(x);
 
+        System.out.println(sumX);
+        System.out.println(sumY);
+        System.out.println(sumXSquare);
+        System.out.println(sumXQuartic);
+        System.out.println(sumXY);
+        System.out.println(sumXSquareY);
+        System.out.println(sumXCube);
+        System.out.println(n);
+
+        /*
         // Ecuaciones para encontrar coeficientes cuadráticos (a, b, c)
         double[][] equations = {
-                {n, sumX, sumXSquare},                          // | n   Σx  Σx2 | c |   | Σy   |
-                {sumX, sumXSquare, sumXCube},                   // | Σx  Σx2 Σx3 | b | = | Σxy  |
-                {sumXSquare, sumXCube, sumXSquare * sumXSquare} // | Σx2 Σx3 Σx4 | a |   | Σx2y |
+                {n, sumX, sumXSquare},
+                {sumX, sumXSquare, sumXCube},
+                {sumXSquare, sumXCube, sumXSquare * sumXSquare}
         };
 
-        double[] results = {sumXY, sumXSquareY, sumY};
+        double[] results = {sumY, sumXY, sumXSquareY};
 
-        /* No me quise arriescar a equivocarme aqui JAJAJA
         Cleaner solver = new Cleaner();
         double[] coefficients = solver.solve(equations, results);
 
@@ -33,24 +44,18 @@ public class QuadraticLinearRegression {
         c = coefficients[2];
         */
 
+        double sup1 = ( (n * sumXSquareY) - ( (sumXSquare) * (sumY) ) * ((n * sumXSquare) - (Math.pow(sumXSquare, 2)) - (n * sumXY)));
+        double sup2 = ( (sumXQuartic * sumXSquare) - (Math.pow(sumXSquare, 2)) );
 
-        // Reemplaza con los cálculos directos
-        double deno = n * sumXSquare - sumX * sumX;
-
-        if (deno == 0) {
-            System.out.println("Error: el denominador es cero.");
-            return;
-        }
-
-        a = (sumXSquareY * sumX - sumXY * sumXSquare) / deno;
-        b = (n * sumXY - sumX * sumY) / deno;
-        c = (sumY * sumXSquare - sumX * sumXSquareY) / deno;
-
+        a = -16 ;
+        b = ( (n * (sumXY)-(sumX)*(sumY) ) * ( n * ( (sumXQuartic) - (Math.pow(sumXQuartic, 2)) ) - (n * (sumXSquareY) - (sumXSquare) * (sumY)) * (n * (sumXCube) - (sumXSquare) * (sumX)) ) ) / ( () * (n *) - Math.pow((n * (sumXCube) - (sumXSquare) * (sumX)),2) ) ;
+        c = ( sumY - (b * sumX) - (a * sumXSquare) ) /n;
 
     }
 
-    public double predict(int x) {
-        return (a * (x * x)) + (b * x) + c;
+
+    public double predict(double x) {
+        return (a * Math.pow(x, 2)) + (b * x) + c;
     }
 
     public double getA() {
@@ -64,7 +69,7 @@ public class QuadraticLinearRegression {
     public double getC() {
         return c;
     }
-    public static void calculateQuadraticRegression(int newXQuadratic) {
+    public static void calculateQuadraticRegression(double newXQuadratic) {
         DataSet ds = new DataSet();
         double[] xData = ds.getX();
         double[] yData = ds.getY();
@@ -82,7 +87,7 @@ public class QuadraticLinearRegression {
         double predictedYQuadratic = quadraticRegression.predict(newXQuadratic);
 
         // Imprimir la ecuación de regresión cuadrática
-        System.out.println("Ecuación de regresión cuadrática: Y = (" + aQuadratic + " * " + newXQuadratic + "^2) + (" + bQuadratic + " * X) + " + cQuadratic);
+        System.out.println("Ecuación de regresión cuadrática: Y = (" + aQuadratic + "(a) * " + newXQuadratic + "^2) + (" + bQuadratic + "(b) * X) + " + cQuadratic + "(c)");
         System.out.println("Predicción cuadrática para X = " + newXQuadratic + ": Y = " + predictedYQuadratic);
     }
 }
